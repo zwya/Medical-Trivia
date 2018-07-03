@@ -1,0 +1,7 @@
+ng serve --proxy-config proxy.config.json - start dev server
+
+ng build && node ./bin/www -- start server
+
+ng build -- production build
+
+"C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe" --dbpath "E:\MongoDB"
