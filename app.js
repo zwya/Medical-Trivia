@@ -23,9 +23,6 @@ app.use(express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/api/image', imageRoutes);
 app.use('/api/question', questionRoutes);
-app.on('listening', function () {
-    console.log('HELAW');
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

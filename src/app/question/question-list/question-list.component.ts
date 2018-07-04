@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import { QuestionService } from '../question.service';
 import { ImageService } from '../../image.service';
@@ -17,7 +18,7 @@ export class QuestionListComponent implements OnInit {
   private hasMorePages: boolean;
   question: Question;
 
-  constructor(private questionService: QuestionService, private imageService: ImageService, private sanitizer: DomSanitizer) { }
+  constructor(private questionService: QuestionService, private imageService: ImageService, private sanitizer: DomSanitizer, private router: Router) { }
 
   ngOnInit() {
     this.pageNumber = 1;
@@ -34,7 +35,7 @@ export class QuestionListComponent implements OnInit {
           this.imageService.getImage(data.question.image)
           .subscribe(
             data => {
-              this.currentImageData = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;charset=utf-8;base64,' + data.data);
+              this.currentImageData = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;charset=utf-8;base64,' + data['data']);
             }
           );
         }
@@ -56,18 +57,26 @@ export class QuestionListComponent implements OnInit {
     this.getQuestion();
   }
 
+  editQuestion() {
+    if(this.question) {
+      this.router.navigateByUrl('/question/form/' + this.question.id);
+    }
+  }
+
   deleteQuestion() {
-    this.questionService.deleteQuestion(this.question.id).subscribe(
-      data => {
-        console.log(data);
-        if(this.pageNumber == 1) {
-          this.getQuestion();
+    if(this.question) {
+      this.questionService.deleteQuestion(this.question.id).subscribe(
+        data => {
+          console.log(data);
+          if(this.pageNumber == 1) {
+            this.getQuestion();
+          }
+          else{
+            this.pageNumber--;
+            this.getQuestion();
+          }
         }
-        else{
-          this.pageNumber--;
-          this.getQuestion();
-        }
-      }
-    );
+      );
+    }
   }
 }

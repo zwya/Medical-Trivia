@@ -33,7 +33,7 @@
       <button type="button" class="btn btn-primary" routerLink="/question/form"> Add Question </button>
     </div>
     <div class="offset-1">
-      <button type="button" class="btn btn-primary" routerLink="/question/form/{{question?.id}}"> Edit Question </button>
+      <button type="button" class="btn btn-primary" (click)="editQuestion()"> Edit Question </button>
     </div>
     <div class="offset-1">
       <button type="button" class="btn btn-primary" (click)="deleteQuestion()"> Delete Question </button>

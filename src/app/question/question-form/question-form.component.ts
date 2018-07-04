@@ -16,11 +16,10 @@ import { QuestionService } from '../question.service';
 export class QuestionFormComponent implements OnInit {
   questionForm: FormGroup;
   public uploader:FileUploader = new FileUploader({url: "/api/image", itemAlias: 'photo'});
-  currentImageData: any = './assets/images/jackie-chan.jpg';
-  currentImageId = null;
   imageAdded: boolean = false;
   question: Question;
   editMode: boolean = false;
+  url: any = './assets/images/jackie-chan.jpg';
 
   constructor(private imageService: ImageService, private sanitizer: DomSanitizer, private questionService: QuestionService, private router: Router, private route: ActivatedRoute) {}
 
@@ -42,14 +41,24 @@ export class QuestionFormComponent implements OnInit {
     };
 
     this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-          this.uploader.queue = [];
-          this.questionForm.patchValue({
-            img: ''
-          });
           var json = JSON.parse(response);
-          this.currentImageData = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;charset=utf-8;base64,' + json.data);
-          this.currentImageId = json.obj._id;
-          this.imageAdded = true;
+          var questionFormValues = this.questionForm.value;
+          if(!this.editMode) {
+            this.questionService.addQuestion(new Question(questionFormValues.question, [questionFormValues.a1, questionFormValues.a2, questionFormValues.a3, questionFormValues.a4], json.obj._id)).subscribe(
+              data => {
+                console.log(data);
+                this.router.navigateByUrl('/question');
+              }
+            );
+          }
+          else {
+            this.questionService.updateQuestion(new Question(questionFormValues.question, [questionFormValues.a1, questionFormValues.a2, questionFormValues.a3, questionFormValues.a4], json.obj._id, this.question.id)).subscribe(
+              data => {
+                console.log(data);
+                this.router.navigateByUrl('/question');
+              }
+            );
+          }
       };
 
     this.uploader.onErrorItem = (item:any, reponse:any, status:any, headers: any) => {
@@ -73,8 +82,7 @@ export class QuestionFormComponent implements OnInit {
               this.imageService.getImage(data.image)
               .subscribe(
                 data => {
-                  this.currentImageData = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;charset=utf-8;base64,' + data.data);
-                  this.currentImageId = data.obj._id;
+                  this.url = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;charset=utf-8;base64,' + data['data']);
                 }
               );
             }
@@ -85,22 +93,18 @@ export class QuestionFormComponent implements OnInit {
   }
 
   onSubmit() {
-    var questionFormValues = this.questionForm.value;
-    if(!this.editMode) {
-      this.questionService.addQuestion(new Question(questionFormValues.question, [questionFormValues.a1, questionFormValues.a2, questionFormValues.a3, questionFormValues.a4], this.currentImageId)).subscribe(
-        data => {
-          console.log(data);
-          this.router.navigateByUrl('/question');
-        }
-      );
-    }
-    else {
-      this.questionService.updateQuestion(new Question(questionFormValues.question, [questionFormValues.a1, questionFormValues.a2, questionFormValues.a3, questionFormValues.a4], this.currentImageId, this.question.id)).subscribe(
-        data => {
-          console.log(data);
-          this.router.navigateByUrl('/question');
-        }
-      );
+    this.uploader.uploadAll();
+  }
+
+  detectFiles(event) {
+    let file = event.target.files[0];
+    this.imageAdded = true;
+    if (file) {
+      let reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.url = e.target.result;
+      }
+      reader.readAsDataURL(file);
     }
   }
 }

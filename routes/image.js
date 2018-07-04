@@ -63,8 +63,6 @@ router.post('/', function(req, res, next){
                 error: err
               });
             }
-            var bitmap = fs.readFileSync(DIR + sum + '.' + fileExt);
-            var data = new Buffer(bitmap).toString('base64');
             if(!img){
               var img = new Image({
                 path: DIR + sum + '.' + fileExt,
@@ -73,16 +71,14 @@ router.post('/', function(req, res, next){
               img.save(function(err, img) {
                 return res.status(201).json({
                   message: 'Saved image',
-                  obj: img,
-                  data: data
+                  obj: img
                 });
               });
             }
             else {
               res.status(201).json({
                 message: 'Saved image',
-                obj: img,
-                data: data
+                obj: img
               });
             }
           });
