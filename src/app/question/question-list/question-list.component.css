@@ -1,0 +1,29 @@
+.below-img{
+  margin-top: 7%;
+}
+
+.uploadfile{
+  margin-left: 3%;
+  margin-top: 2%;
+}
+
+.uploadbtn{
+  margin-left: 6%;
+  margin-top: 2%;
+}
+
+
+.questionimg{
+  margin-left: 11%;
+  width: auto;
+  max-width: 300px;
+  max-height: 250px;
+}
+
+.submitbtn{
+  margin-top: 2%;
+}
+
+.questiondiv{
+  margin-top: 3%;
+}

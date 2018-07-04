@@ -5,6 +5,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var paginate = require('express-paginate');
 
+var imageRoutes = require('./routes/image');
+var questionRoutes = require('./routes/question');
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/medicaltrivia')
   .then(() =>  console.log('connection succesful'))
@@ -15,9 +18,14 @@ var app = express();
 app.use(paginate.middleware(10, 50));
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
+app.use('/api/image', imageRoutes);
+app.use('/api/question', questionRoutes);
+app.on('listening', function () {
+    console.log('HELAW');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
