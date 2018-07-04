@@ -10,6 +10,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { QuestionListComponent } from './question/question-list/question-list.component';
 import { QuestionFormComponent } from './question/question-form/question-form.component';
 import { routing } from './app.routing';
+import { SigninComponent } from './auth/signin/signin.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { routing } from './app.routing';
     NavbarComponent,
     QuestionListComponent,
     QuestionFormComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    SigninComponent
   ],
   imports: [
     BrowserModule,

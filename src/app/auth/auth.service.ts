@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+
+import { User } from './user.model';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
-const apiUrl = "/api/image";
+const apiUrl = "/api/auth/signin";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ImageService {
+export class AuthService {
 
   constructor(private http: HttpClient) { }
 
@@ -31,10 +33,26 @@ export class ImageService {
       return throwError('Something bad happened; please try again later.');
     }
 
-  getImage(id) {
-    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-    return this.http.get(apiUrl + "/" + id + token, httpOptions).pipe(
-      catchError(this.handleError)
-    );
-  }
+    signin(user: User) {
+      const body = JSON.stringify(user);
+      return this.http.post(apiUrl, body, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+    }
+
+    logout() {
+      localStorage.clear();
+    }
+
+    isLoggedIn() {
+      return localStorage.getItem('token') !== null;
+    }
+
+    isAdmin() {
+      if(localStorage.getItem('admin') && localStorage.getItem('admin') != 'false') {
+        return true;
+      }
+      return false;
+    }
+
 }

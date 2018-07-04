@@ -15,7 +15,7 @@ import { QuestionService } from '../question.service';
 })
 export class QuestionFormComponent implements OnInit {
   questionForm: FormGroup;
-  public uploader:FileUploader = new FileUploader({url: "/api/image", itemAlias: 'photo'});
+  public uploader:FileUploader = new FileUploader({url: "/api/image", itemAlias: 'photo', authTokenHeader: 'authorization', authToken: localStorage.getItem('token') ? localStorage.getItem('token') : ''});
   imageAdded: boolean = false;
   question: Question;
   editMode: boolean = false;
@@ -61,8 +61,8 @@ export class QuestionFormComponent implements OnInit {
           }
       };
 
-    this.uploader.onErrorItem = (item:any, reponse:any, status:any, headers: any) => {
-      console.log(item, status, reponse);
+    this.uploader.onErrorItem = (item:any, response:any, status:any, headers: any) => {
+      console.log(item, status, response);
     };
 
     this.route.params.subscribe(

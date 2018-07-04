@@ -1,9 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var paginate = require('express-paginate');
+var jwt = require('jsonwebtoken');
 
 var Question = require('../models/question');
 var Answer = require('../models/answer');
+
+router.use('/', function(req, res, next) {
+  jwt.verify(req.query.token, 'secret', function(err, decoded) {
+    if(err) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    if(!decoded.user.admin) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    next();
+  });
+});
 
 router.post('/', function(req, res, next){
   var question = new Question({
@@ -79,6 +98,7 @@ router.get('/:id', function(req, res, next){
 });
 
 router.get('/', function(req, res, next){
+  console.log('went here');
   Question.find().limit(req.query.limit).skip(req.skip).populate('answers', ['answertext', '_id']).exec(function(err, question) {
     if(err){
       return res.status(500).json({

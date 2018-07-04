@@ -34,31 +34,36 @@ export class QuestionService {
     }
 
   addQuestion(question: Question) {
-    return this.http.post(apiUrl, JSON.stringify(question), httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.post(apiUrl + token, JSON.stringify(question), httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   getQuestion(pageNumber: number, limit: number): Observable<any> {
-    return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit, httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '&token=' + localStorage.getItem('token') : '';
+    return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit + token, httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   getQuestionById(id: string): Observable<any> {
-    return this.http.get(apiUrl + '/' + id, httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.get(apiUrl + '/' + id + token, httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   updateQuestion(question: Question) {
-    return this.http.patch(apiUrl + '/' + question.id, JSON.stringify(question), httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.patch(apiUrl + '/' + question.id + token, JSON.stringify(question), httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   deleteQuestion(id: string) {
-    return this.http.delete(apiUrl + '/' + id, httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.delete(apiUrl + '/' + id + token, httpOptions).pipe(
       catchError(this.handleError)
     );
   }

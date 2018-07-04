@@ -5,8 +5,29 @@ var DIR = './uploads/';
 var upload = multer({dest: DIR}).single('photo');
 var fs = require('fs');
 var checksum = require('checksum');
+var jwt = require('jsonwebtoken');
+
 var Image = require('../models/image');
 const acceptedmimeTypes = ['image/jpeg', 'image/png'];
+
+router.use('/', function(req, res, next) {
+  const token = req.query.token ? req.query.token : req.get('authorization') ? req.get('authorization') : null;
+  jwt.verify(token, 'secret', function(err, decoded) {
+    if(err) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    if(!decoded.user.admin) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    next();
+  });
+});
 
 router.get('/:id', function(req, res, next) {
   Image.findById(req.params.id, function(err, img) {

@@ -6,17 +6,17 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Admin</a>
+      <li class="nav-item" *ngIf="authService.isAdmin()">
+        <a routerLinkActive="active" class="nav-link" href="#" routerLink="/question">Admin</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Questions</a>
+        <a routerLinkActive="active" *ngIf="authService.isLoggedIn()" class="nav-link" href="#">Questions</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Signin</a>
+      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+        <a routerLinkActive="active" class="nav-link" href="#" routerLink="/signin">Signin</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Logout</a>
+      <li class="nav-item" *ngIf="authService.isLoggedIn()" (click)="authService.logout()" routerLink="/signin">
+        <a routerLinkActive="active" class="nav-link" href="#">Logout</a>
       </li>
     </ul>
   </div>
