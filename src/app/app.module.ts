@@ -11,6 +11,9 @@ import { QuestionListComponent } from './question/question-list/question-list.co
 import { QuestionFormComponent } from './question/question-form/question-form.component';
 import { routing } from './app.routing';
 import { SigninComponent } from './auth/signin/signin.component';
+import { TriviaComponent } from './trivia/trivia.component';
+import { IsloggedinGuard } from './guards/isloggedin.guard';
+import { AuthenticationGuard } from './guards/authentication.guard';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,8 @@ import { SigninComponent } from './auth/signin/signin.component';
     QuestionListComponent,
     QuestionFormComponent,
     FileSelectDirective,
-    SigninComponent
+    SigninComponent,
+    TriviaComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +32,7 @@ import { SigninComponent } from './auth/signin/signin.component';
     HttpClientModule,
     routing
   ],
-  providers: [],
+  providers: [IsloggedinGuard, AuthenticationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

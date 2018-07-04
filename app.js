@@ -8,6 +8,7 @@ var paginate = require('express-paginate');
 var imageRoutes = require('./routes/image');
 var questionRoutes = require('./routes/question');
 var authRoutes = require('./routes/auth');
+var adminQuestionRoutes = require('./routes/adminquestion');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/medicaltrivia')
@@ -25,6 +26,7 @@ app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/api/image', imageRoutes);
 app.use('/api/question', questionRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin/question', adminQuestionRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

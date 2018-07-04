@@ -10,7 +10,7 @@
         <a routerLinkActive="active" class="nav-link" href="#" routerLink="/question">Admin</a>
       </li>
       <li class="nav-item">
-        <a routerLinkActive="active" *ngIf="authService.isLoggedIn()" class="nav-link" href="#">Questions</a>
+        <a routerLinkActive="active" *ngIf="authService.isLoggedIn()" class="nav-link" href="#" routerLink="/trivia">Questions</a>
       </li>
       <li class="nav-item" *ngIf="!authService.isLoggedIn()">
         <a routerLinkActive="active" class="nav-link" href="#" routerLink="/signin">Signin</a>

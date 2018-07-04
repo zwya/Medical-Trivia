@@ -9,6 +9,7 @@ const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 const apiUrl = "/api/question";
+const adminApiUrl = "/api/admin/question";
 
 @Injectable({
   providedIn: 'root'
@@ -35,36 +36,50 @@ export class QuestionService {
 
   addQuestion(question: Question) {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-    return this.http.post(apiUrl + token, JSON.stringify(question), httpOptions).pipe(
+    return this.http.post(adminApiUrl + token, JSON.stringify(question), httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   getQuestion(pageNumber: number, limit: number): Observable<any> {
     const token = localStorage.getItem('token') ? '&token=' + localStorage.getItem('token') : '';
-    return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit + token, httpOptions).pipe(
+    return this.http.get(adminApiUrl + "?page=" + pageNumber + "&limit=" + limit + token, httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   getQuestionById(id: string): Observable<any> {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-    return this.http.get(apiUrl + '/' + id + token, httpOptions).pipe(
+    return this.http.get(adminApiUrl + '/' + id + token, httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   updateQuestion(question: Question) {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-    return this.http.patch(apiUrl + '/' + question.id + token, JSON.stringify(question), httpOptions).pipe(
+    return this.http.patch(adminApiUrl + '/' + question.id + token, JSON.stringify(question), httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   deleteQuestion(id: string) {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-    return this.http.delete(apiUrl + '/' + id + token, httpOptions).pipe(
+    return this.http.delete(adminApiUrl + '/' + id + token, httpOptions).pipe(
       catchError(this.handleError)
+    );
+  }
+
+  getRandomQuestion() {
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.get(apiUrl + '/rand' + token, httpOptions).pipe(
+      catchError(this.handleError);
+    );
+  }
+
+  getCorrectAnswer(qid: string) {
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.get(apiUrl + '/correct/' + qid + token, httpOptions).pipe(
+      catchError(this.handleError);
     );
   }
 }

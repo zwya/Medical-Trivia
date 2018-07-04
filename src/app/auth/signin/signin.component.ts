@@ -29,7 +29,7 @@ export class SigninComponent implements OnInit {
         localStorage.setItem('token', data['token']);
         localStorage.setItem('userId', data['userId']);
         localStorage.setItem('admin', data['admin']);
-        this.router.navigateByUrl('/question');
+        this.router.navigateByUrl('/trivia');
       }
     );
   }
