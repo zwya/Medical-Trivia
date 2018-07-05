@@ -72,14 +72,14 @@ export class QuestionService {
   getRandomQuestion() {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
     return this.http.get(apiUrl + '/rand' + token, httpOptions).pipe(
-      catchError(this.handleError);
+      catchError(this.handleError)
     );
   }
 
   getCorrectAnswer(qid: string) {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
     return this.http.get(apiUrl + '/correct/' + qid + token, httpOptions).pipe(
-      catchError(this.handleError);
+      catchError(this.handleError)
     );
   }
 }

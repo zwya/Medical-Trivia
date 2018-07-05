@@ -1,23 +1,21 @@
 <div class="row">
-  <div class="col offset-3">
+  <div class="col text-center">
     <img [src]="currentImageData" alt="Img Should Be Here" class="questionimg">
-  </div>
-  <div class="w-100"></div>
-  <div class="col-3 offset-4 questiondiv">
     <p> {{question?.question}} </p>
   </div>
-  <div class="row below-img">
-    <div class="col-3 offset-2 form-group">
+  <div class="w-100"></div>
+  <div class="row">
+    <div class="col offset-3 form-group">
       <button type="button" class="action-button animate blue" (click)="answerClicked(0)" [disabled]="answerSelected"> {{question?.answers[0]}} </button>
     </div>
-    <div class="col-3 offset-2 form-group">
+    <div class="col form-group">
       <button type="button" class="action-button animate green" (click)="answerClicked(1)" [disabled]="answerSelected"> {{question?.answers[1]}} </button>
     </div>
     <div class="w-100"></div>
-    <div class="col-3 offset-2 form-group">
+    <div class="col offset-3 form-group">
       <button type="button" class="action-button animate red" (click)="answerClicked(2)" [disabled]="answerSelected"> {{question?.answers[2]}} </button>
     </div>
-    <div class="col-3 offset-2 form-group">
+    <div class="col form-group">
       <button type="button" class="action-button animate yellow" (click)="answerClicked(3)" [disabled]="answerSelected"> {{question?.answers[3]}} </button>
     </div>
     <div class="w-100"></div>

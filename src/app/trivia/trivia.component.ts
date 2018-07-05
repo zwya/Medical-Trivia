@@ -28,13 +28,13 @@ export class TriviaComponent implements OnInit {
       data => {
         var textanswers = [];
         var ids = [];
-        data.answers.forEach(function(item) {
+        data['answers'].forEach(function(item) {
           textanswers.push(item.answertext);
           ids.push(item._id);
         });
-        this.answerIds = ids;
-        this.question = new Question(data.question, textanswers, data.image, data._id);
-        this.imageService.getImage(data.image)
+        this.answersId = ids;
+        this.question = new Question(data['question'], textanswers, data['image'], data['_id']);
+        this.imageService.getImage(data['image'])
         .subscribe(
           data => {
             this.currentImageData = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;charset=utf-8;base64,' + data['data']);
@@ -47,7 +47,7 @@ export class TriviaComponent implements OnInit {
   answerClicked(index) {
     this.questionService.getCorrectAnswer(this.question.id).subscribe(
       data => {
-        if(data.data == this.answerIds[index]) {
+        if(data['data'] == this.answersId[index]) {
           this.result = true;
         }
         else {

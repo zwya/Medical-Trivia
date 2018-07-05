@@ -1,18 +1,18 @@
 <div class="row">
   <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
-  <div class="col offset-3">
-    <img [src]="url" alt="Img Should Be Here" height=200 width=200 class="questionimg">
+  <div class="col text-center">
+    <img [src]="url" alt="Img Should Be Here" class="questionimg">
   </div>
   <div class="w-100"></div>
-  <div class="col-4 offset-4">
-    <input type="file" class="uploadfile form-control-file" name="photo" ng2FileSelect [uploader]="uploader" formControlName="img" (change)="detectFiles($event)">
+  <div class="col offset-4 mt-3">
+    <input type="file" class="form-control-file" name="photo" ng2FileSelect [uploader]="uploader" formControlName="img" (change)="detectFiles($event)">
   </div>
   <div class="w-100"></div>
-  <div class="col-3 offset-4 questiondiv">
+  <div class="col-3 offset-4">
     <label for="inputQuestion">Question</label>
     <input type="text" class="form-control" id="inputQuestion" formControlName = "question">
   </div>
-  <div class="row below-img">
+  <div class="row mt-4">
     <div class="col-3 offset-2 form-group">
       <label for="inputA1">Answer 1 (Correct Answer)</label>
       <input type="text" class="form-control" id="inputA1" formControlName = "a1">
